@@ -4051,6 +4051,7 @@
                         /* Скидаємо все, що може давати тема */
                         background-image: none !important; /* Прибираємо картинку теми */
                         background: none !important; /* Наш темний колір */
+
                     }
 
 					/* --- 3. Кнопка закриття --- */
@@ -6712,6 +6713,23 @@
                         position: relative;
                     }
 
+					.close {
+    					background: none;
+    					position: absolute;
+   						top: 15px;
+    					right: 35px;
+    					color: #f1f1f1;
+    					font-size: 40px;
+    					font-weight: bold;
+    					transition: 0.3s;
+					}
+
+    				.close:hover,
+    				.close:focus {
+        				color: #bbb;
+        				text-decoration: none;
+        				cursor: pointer;
+    				}
                     
                 </style>
 
