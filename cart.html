@@ -1,0 +1,663 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <link rel="icon" type="image/png" href="https://richpizza.com.ua/wp-content/uploads/2021/10/favicon.png">
+    <link rel="stylesheet" href="https://richpizza.com.ua/wp-content/themes/pizzarich-ua/css/main.min.css?v=2">
+    <link rel="manifest" href="https://richpizza.com.ua/wp-content/themes/pizzarich-ua/manifest.json" />
+    <title>RichPizza - оформити замовлення</title>
+    <script type="module">
+    import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
+        const el = document.createElement('pwa-update');
+        document.body.appendChild(el);</script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7MzKtnK4Wsv4qzx0yItM88Nr81lO5EZ8&libraries=places&language=uk"></script>
+</head>
+<body class="body">
+    <header class="header">
+        <div class="container">
+            <div class="header__top">
+                <div class="logo">
+                    <a class="logo__link" href="/">
+                        <img src="https://richpizza.com.ua/wp-content/uploads/2021/10/richlogo.svg" alt="Логотип PizzaRich">
+                    </a>
+                </div>
+                <nav class="nav">
+                    <div class="nav__contacts">
+                        <div class="tel">
+                            <a class="tel__link" href="tel:+380508112020">+38 (050) 811 2020</a>
+                        </div>
+                        <div class="hero__adress">
+                            <span>м. Боярка</span>
+                            <p>вул. Богдана Хмельницького 133/33</p>
+                        </div>
+                    </div>
+                    <ul class="nav__links">
+                        <li>
+                            <a class="nav__link" href="/#menu">Меню</a>
+                        </li>
+
+                        <li>
+                            <a class="nav__link" href="/#about">Про нас</a>
+                        </li>
+                        <li>
+                            <a class="nav__link" href="/#delivery">Доставка</a>
+                        </li>
+                        <li>
+                            <a class="nav__link" href="#footer">Контакти</a>
+                        </li>
+                    </ul>
+
+                    <div class="lang">
+                        <a class="lang__link active" href="#">Укр</a>
+                        /
+                        <a class="lang__link" href="#">Рус</a>
+                    </div>
+                </nav>
+                <div class="header__pannel">
+                    <div class="tel">
+                        <a class="tel__link" href="+38 (050) 811 2020">+38 (050) 811 2020</a>
+                    </div>
+                    <div class="lang">
+                        <a class="lang__link" href="#">Укр</a>
+                        /
+                        <a class="lang__link active" href="#">Рус</a>
+                    </div>
+                    <div class="cart">
+                        <button class="cart__btn">
+                            0
+                        </button>
+                        <div class="cart__block">
+                            <ul class="cart__list">
+                            </ul>
+                            <div class="cart__total">
+                                <div>
+                                    <span>
+                                        Сума замовлення
+                                    </span>
+                                    <span>
+                                        0 грн
+                                    </span>
+                                </div>
+                                <button class="btn">Оформити замовлення</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="burger"></button>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+
+
+
+    <div class="wrapper" id="up">
+        <section class="order">
+            <div class="container">
+                <div class="order__wrapp">
+                    <div class="order__left">
+                        <div class="order__choice">
+                            <h3 class="order__title">Оформити замовлення</h3>
+                            <div class="order__panel">
+                                <button class="order__btn d active">Доставка</button>
+                                <button class="order__btn s">Самовивіз</button>
+                            </div>
+
+                        </div>
+                        <form class="form active" action="/telegram.php/" method="POST">
+                            <input type="hidden" name="type-order" readonly value="===ДОСТАВКА===">
+                            <input type="hidden" name="order-list" class="orderInput" readonly>
+                            <input type="hidden" name="order-delivery" class="orderInputDelivery" readonly>
+                            <input type="hidden" name="order-total" class="orderInputTotal" readonly>
+                            <div class="form__contact">
+                                <p class="form__title">Контакти</p>
+                                <div class="form__list">
+                                    <div class="form__item">
+                                        <label class="form__label" for="name">Ім'я</label>
+                                        <input class="form__input" id="name" name="name" type="text" placeholder="Ваше имя" required data-validate-field="name" required>
+                                    </div>
+                                    <div class="form__item">
+                                        <label class="form__label" for="phone">Телефон</label>
+                                        <input class="form__input input__phone" name="phone" id="phone" type="tel" placeholder="Ваш телефон" required data-validate-field="tel" required>
+                                    </div>
+                                    <div class="form__item">
+                                        <label class="form__label" for="email">Email</label>
+                                        <input class="form__input" id="email" name="mail" type="email" placeholder="Электронная почта" required data-validate-field="email" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form__adress">
+                                <p class="form__title">Адреса доставки</p>
+                                <div class="form__item">
+                                    <div class="form__select">
+                                        <span class="form__label">Місто</span>
+                                        <span class="form__placeholder">Виберіть місто доставки</span>
+                                        <button class="btn__select"></button>
+                                        <ul class="select__list">
+                                        </ul>
+                                    </div>
+                                    <select class="form__city" name="city">
+
+                                        <option value="г. Боярка – доставка 50 грн.">
+                                            г. Боярка – доставка 50 грн.
+                                        </option>
+
+                                        <option value="с. Тарасовка – доставка 80 грн.">
+                                            с. Тарасовка – доставка 80 грн.
+                                        </option>
+
+                                        <option value="с. Нове – доставка 80 грн.">
+                                            с. Нове – доставка 80 грн.
+                                        </option>
+
+                                        <option value="с. Малютянка – от 80 грн.">
+                                            с. Малютянка – от 80 грн.
+                                        </option>
+
+                                        <option value="с. Забирье – от 80 грн.">
+                                            с. Забирье – от 80 грн.
+                                        </option>
+
+                                        <option value="с. Белогородка – от 80 грн.">
+                                            с. Белогородка – от 80 грн.
+                                        </option>
+
+                                        <option value="с. Бобрица - от 80 грн.">
+                                            с. Бобрица - от 80 грн.
+                                        </option>
+
+                                        <option value="с. Старая Боярка – 80 грн.">
+                                            с. Старая Боярка – 80 грн.
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form__list">
+                                    <div class="form__item">
+                                        <label class="form__label" for="street">Вулиця, номер дома</label>
+                                        <input class="form__input" id="street" name="street" type="text" placeholder="Назва вулиці та номер дому" data-validate-field="street" requered>
+                                    </div>
+                                    <div class="form__item">
+                                        <label class="form__label" for="flat">Квартира</label>
+                                        <input class="form__input" id="flat" name="flat" type="number" placeholder="Номер квартири">
+                                    </div>
+                                    <div class="form__item">
+                                        <label class="form__label" for="comment">Побажання до замовлення</label>
+                                        <textarea class="form__comment" id="comment" name="comment" placeholder="Побажання (не обов'язково)"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form__communication">
+                                <p>- Зв'яжіться зі мною</p>
+                                <div class="form__list">
+                                    <div class="form__item">
+                                        <input type="radio" name="viber" id="viber" value="Viber">
+                                        <label for="viber">Viber</label>
+                                    </div>
+                                    <div class="form__item">
+                                        <input type="radio" name="viber" id="telegram" value="Telegram">
+                                        <label for="telegram">Telegram</label>
+                                    </div>
+                                    <div class="form__item">
+                                        <input type="radio" name="viber" id="phone-call" value="Телефон" checked>
+                                        <label for="phone-call">Телефонний дзвінок</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form__total">
+                                <p class="form__title">Результат замовлення</p>
+                                <div class="total">
+                                    <ul class="total__list">
+                                        <li class="total__item">
+                                            <span class="total__text">Сума замовлення</span><div class="total__price total">0<span class="total__currency">грн</span></div>
+                                        </li>
+                                        <li class="total__item">
+                                            <span class="total__text">Доставка</span><div class="total__price deliv">0<span class="total__currency">грн</span></div>
+                                        </li>
+                                        <li class="total__item">
+                                            <span class="total__text">Загальна сума</span><div class="total__price currency">0<span class="total__currency">грн</span></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <button class="form__btn">Замовити</button>
+                        </form>
+                        <form class="form pickup" action="/telegram.php/" method="POST">
+                            <div class="form__contact">
+                                <input type="hidden" name="type-order" readonly value="===САМОВІВИЗ===">
+                                <input type="hidden" name="order-list" class="orderInput" readonly>
+                                <input type="hidden" name="order-delivery" class="orderInputDelivery" readonly>
+                                <input type="hidden" name="order-total" class="orderInputTotal" readonly>
+                                <p class="form__title">Контакти</p>
+                                <div class="form__list">
+                                    <div class="form__item">
+                                        <label class="form__label" for="name1">Ім'я</label>
+                                        <input class="form__input" id="name1" type="text" name="name" placeholder="Ваше ім'я" required data-validate-field="name1" requered>
+                                    </div>
+                                    <div class="form__item">
+                                        <label class="form__label" for="phone1">Телефон</label>
+                                        <input class="form__input input__phone" id="phone1" name="phone" type="tel" placeholder="Ваш телефон" required data-validate-field="tel1" requered>
+                                    </div>
+                                    <div class="form__item">
+                                        <label class="form__label" for="email">Email</label>
+                                        <input class="form__input" id="email" type="email" name="mail" placeholder="Электронная почта" required data-validate-field="email1" requered>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="self-form">
+                                <p class="form__title">
+                                    Самовивіз
+                                </p>
+                                <p>
+                                    Готове замовлення можна отримати за адресою м. Боярка, вул. Богдана Хмельницького 133
+                                </p>
+                            </div>
+                            <div class="form__communication">
+                                <p>- </p>
+                                <div class="form__list">
+                                    <div class="form__item">
+                                        <input type="radio" name="viber" id="viber1" value="Viber">
+                                        <label for="viber1">Viber</label>
+                                    </div>
+                                    <div class="form__item">
+                                        <input type="radio" name="viber" id="telegram1" value="Telegram">
+                                        <label for="telegram1">Telegram</label>
+                                    </div>
+                                    <div class="form__item">
+                                        <input type="radio" name="viber" id="phone-call1" value="Телефон" checked>
+                                        <label for="phone-call1">
+                                            Телефонний дзвінок
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form__total">
+                                <p class="form__title">Результат замовлення</p>
+                                <div class="total">
+                                    <ul class="total__list">
+                                        <li class="total__item">
+                                            <span class="total__text">Сума замовлення</span><div class="total__price total">0<span class="total__currency">грн</span></div>
+                                        </li>
+                                        <li class="total__item">
+                                            <span class="total__text">Доставка</span><div class="total__price deliv">0<span class="total__currency">грн</span></div>
+                                        </li>
+                                        <li class="total__item">
+                                            <span class="total__text">Загальна сума</span><div class="total__price currency">0<span class="total__currency">грн</span></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <button class="form__btn">Замовити</button>
+                        </form>
+                    </div>
+                    <div class="order__right">
+                        <div class="order__box">
+                            <h3 class="order__title">
+                                Всього
+                            </h3>
+                            <ul class="order__list">
+                            </ul>
+                            <div class="order__total">
+                                <span class="order__summ">Сума замовлення</span>
+                                <span class="order__result">0 грн</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="popup">
+            <div class="popup__window">
+                <button class="popup__close">
+                    <svg>
+                        <use xlink:href="https://richpizza.com.ua/wp-content/themes/pizzarich/images/icon/sprite.svg#close"></use>
+                    </svg>
+                </button>
+                <div class="popup__img">
+                    <img src="https://richpizza.com.ua/wp-content/themes/pizzarich/images/order/thanky.jpg" alt="Фон">
+                </div>
+                <div class="popup__thank">
+                    <p class="popup__title">Дякуємо за <span>замовлення</span></p>
+                    <p class="popup__text">Очікуйте, наш менеджер звʼяжеться з вами найближчім часом</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer__wrapper">
+                <div class="footer__left">
+                    <p class="footer__text">Слідкуйте за нами в соц. мережах</p>
+                    <div class="social">
+                        <a class="social__link" href="https://www.facebook.com/richcoffee_boyarka-105865068434736"></a>
+                        <a class="social__link" href="https://www.instagram.com/rich.pizza.boyarka/"></a>
+                        <a class="social__link" href="tg://resolve?domain=@richpizza"></a>
+                        <a class="social__link" href="viber://chat?number=+380508112020"></a>
+                    </div>
+                    <div class="instagram">
+                        <div class="instagram__link">
+                            <a href="https://www.instagram.com/rich.pizza.boyarka/"><img src="https://richpizza.com.ua/wp-content/uploads/2021/10/1-4.jpg" alt="фото в инстограмм"></a>
+                        </div>
+                        <div class="instagram__link">
+                            <a href="https://www.instagram.com/rich.pizza.boyarka/"><img src="https://richpizza.com.ua/wp-content/uploads/2021/11/2_optimized-2.jpg" alt="фото в инстограмм"></a>
+                        </div>
+                        <div class="instagram__link">
+                            <a href="https://www.instagram.com/rich.pizza.boyarka/"><img src="https://richpizza.com.ua/wp-content/uploads/2021/11/3_optimized.jpg" alt="фото в инстограмм"></a>
+                        </div>
+                    </div>
+                    <div class="copyrigth">
+                        <p>© RICH PIZZA | Never Alone</p>
+                    </div>
+                </div>
+                <div class="footer__right">
+                    <div>
+                        <p class="footer__text">Контакти</p>
+                        <ul class="contacts">
+                            <li class="contacts__item">
+                                <a class="contacts__link" href="https://goo.gl/maps/ehuXz3G3xGeZgP6V6">вул. Богдана Хмельницького 133/33, <br>м. Боярка, 08151</a>
+                            </li>
+                            <li class="contacts__item">
+                                <p class="contacts__schedule">
+                                    Пн – Пт 11:00 - 21:00
+                                    (остання доставка в 21:00)
+                                </p>
+                                <p class="contacts__schedule">
+                                    Сб – Нд 11:00 - 21:00
+                                    (остання доставка в 21:00)
+                                </p>
+                            </li>
+                            <li class="contacts__item">
+                                <a class="contacts__link" href="tel:+380508112020">
+                                    +38 (050) 811 2020
+                                </a>
+                            </li>
+                            <li class="contacts__item">
+                                <a class="contacts__link" href="to:rich.coffee.food@gmail.com">
+                                    <span class="__cf_email__" data-cfemail="e5978c868dcb868a83838080cb838a8a81a58288848c89cb868a88">[email&#160;protected]</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="copyrigth-mobi">
+                            <p>© 2023 RICH PIZZA | Never Alone</p>
+                        </div>
+                    </div>
+                </div>
+
+                <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+                <script>
+    // Функция для отображения/скрытия элемента при скролле
+                    function toggleElementVisibility() {
+                        var element = document.getElementById('arrow-container');
+                        if (!element) return;
+
+                        var scrollPosition = window.scrollY || window.pageYOffset;
+                        var triggerPosition = 300;
+
+                        // Дополнительная проверка на мобильные устройства
+                        var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+                        if (isMobile && scrollPosition >= triggerPosition) {
+                            element.style.opacity = 1; // Показываем элемент
+                        } else {
+                            element.style.opacity = 0; // Скрываем элемент
+                        }
+                    }
+
+                    // Обработчик события скролла страницы
+                    window.addEventListener('scroll', function () {
+                        toggleElementVisibility();
+                    });
+
+                    // Дополнительный обработчик события, чтобы скрыть элемент плавно, когда пользователь приближается к верху страницы
+                    var lastScrollPosition = 0;
+                    window.addEventListener('scroll', function () {
+                        var currentScrollPosition = window.scrollY || window.pageYOffset;
+                        var element = document.getElementById('arrow-container');
+                        if (!element) return;
+
+                        // Если пользователь скроллит вверх и при этом элемент видим, скрываем его плавно
+                        if (currentScrollPosition < lastScrollPosition && currentScrollPosition < 100) {
+                            element.style.opacity = 0;
+                        }
+
+                        lastScrollPosition = currentScrollPosition;
+                    });</script>
+                <style>
+                    .arrow-up {
+                        position: fixed;
+                        bottom: 32px;
+                        left: 32px;
+                        width: 40px;
+                        height: 40px;
+                        transition: opacity 0.3s ease; /* Плавный переход для opacity */
+                        opacity: 0;
+                        text-align: center;
+                    }
+
+                    .up {
+                        position: relative;
+                    }
+
+                    /* Modal styling */
+                    .modal {
+                        display: none; /* Hidden by default */
+                        position: fixed; /* Stay in place */
+                        z-index: 1000; /* Sit on top */
+                        padding-top: 60px; /* Location of the box */
+                        left: 0;
+                        top: 0;
+                        width: 100%; /* Full width */
+                        height: 100%; /* Full height */
+                        overflow: auto; /* Enable scroll if needed */
+                        background-color: rgba(0, 0, 0, 0.32); /* Black w/ opacity */
+                    }
+
+                    .modal-content {
+                        margin: auto;
+                        display: block;
+                        width: 80%;
+                        max-width: 700px;
+                    }
+
+                    .close {
+                        position: absolute;
+                        top: 15px;
+                        right: 35px;
+                        color: #f1f1f1;
+                        font-size: 40px;
+                        font-weight: bold;
+                        transition: 0.3s;
+                    }
+
+                        .close:hover,
+                        .close:focus {
+                            color: #bbb;
+                            text-decoration: none;
+                            cursor: pointer;
+                        }
+
+                    /* For mobile view */
+                    @media only screen and (max-width: 700px) {
+                        .modal-content {
+                            width: 100%;
+                        }
+                    }
+                </style>
+
+                <div id="arrow-container" class="arrow-up">
+                    <a class="up" href="#up"></a>
+                </div>
+
+            </div>
+        </div>
+        <div class="popup">
+            <div class="popup__window modals" data-type="phone">
+                <button class="close">
+                    <svg class="svg__close">
+                        <use xlink:href="https://richpizza.com.ua/wp-content/themes/pizzarich/images/icon/sprite.svg#close"></use>
+                    </svg>
+                </button>
+                <h4 class="popup__title">
+                    Готові до замовлення?
+                </h4>
+                <p class="popup__subtitle">
+                    Залиште номер телефону, ми зателефонуємо Вам щоб оформити замовлення
+                </p>
+                <div class="popup__form">
+                    <form class="form__phone" action="https://richpizza.com.ua/wp-content/themes/pizzarich-ua/telegram.php" method="POST">
+                        <input type="hidden" name="type-order" readonly value="===ЗАМОВЛЕННЯ ЗА ТЕЛЕФОНОМ===">
+                        <div class="form__item">
+                            <label class="form__label" for="phone">Телефон</label>
+                            <input class="form__input" name="phone" id="phone" type="tel" placeholder="Ваш телефон" required>
+                        </div>
+                        <button class="btn">Перетелефонуйте мені!</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="popup__window thank modals" data-type="thank">
+                <button class="close">
+                    <svg class="svg__close">
+                        <use xlink:href="https://richpizza.com.ua/wp-content/themes/pizzarich/images/icon/sprite.svg#close"></use>
+                    </svg>
+                </button>
+                <h4 class="popup__title">
+                    Дякуємо
+                </h4>
+                <p class="popup__subtitle">
+                    Ми отримали Вашу заявку та звʼяжемось з Вами в найближчим часом!
+                </p>
+                <div class="popup__img">
+                    <svg>
+                        <use xlink:href="https://richpizza.com.ua/wp-content/themes/pizzarich/images/icon/sprite.svg#modalPhone"></use>
+                    </svg>
+                </div>
+            </div> <!--Всплывающее окно с благодарностью -->
+        </div>
+    </footer>
+    <script type="speculationrules">
+        {"prefetch":[{"source":"document","where":{"and":[{"href_matches":"\/*"},{"not":{"href_matches":["\/wp-*.php","\/wp-admin\/*","\/wp-content\/uploads\/*","\/wp-content\/*","\/wp-content\/plugins\/*","\/wp-content\/themes\/pizzarich-ua\/*","\/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+    </script>
+
+    <link rel="stylesheet" href="https://richpizza.com.ua/wp-content/themes/pizzarich-ua/css/main.min.css?v=2.112313423123">
+    <link rel="manifest" href="https://richpizza.com.ua/wp-content/themes/pizzarich-ua/manifest.json" />
+    <script src="https://richpizza.com.ua/wp-content/themes/pizzarich-ua/js/main.min.js?2.22" defer></script>
+
+
+    <!--
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    -->
+    <script>
+    !function (n, t) { "object" == typeof exports && "undefined" != typeof module ? module.exports = t() : "function" == typeof define && define.amd ? define(t) : (n = "undefined" != typeof globalThis ? globalThis : n || self).LazyLoad = t() }(this, (function () { "use strict"; function n() { return n = Object.assign || function (n) { for (var t = 1; t < arguments.length; t++) { var e = arguments[t]; for (var i in e) Object.prototype.hasOwnProperty.call(e, i) && (n[i] = e[i]) } return n }, n.apply(this, arguments) } var t = "undefined" != typeof window, e = t && !("onscroll" in window) || "undefined" != typeof navigator && /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent), i = t && "IntersectionObserver" in window, o = t && "classList" in document.createElement("p"), a = t && window.devicePixelRatio > 1, r = { elements_selector: ".lazyload", container: e || t ? document : null, threshold: 300, thresholds: null, data_src: "src", data_srcset: "srcset", data_sizes: "sizes", data_bg: "bg", data_bg_hidpi: "bg-hidpi", data_bg_multi: "bg-multi", data_bg_multi_hidpi: "bg-multi-hidpi", data_bg_set: "bg-set", data_poster: "poster", class_applied: "applied", class_loading: "loading", class_loaded: "loaded", class_error: "error", class_entered: "entered", class_exited: "exited", unobserve_completed: !0, unobserve_entered: !1, cancel_on_exit: !0, callback_enter: null, callback_exit: null, callback_applied: null, callback_loading: null, callback_loaded: null, callback_error: null, callback_finish: null, callback_cancel: null, use_native: !1, restore_on_error: !1 }, c = function (t) { return n({}, r, t) }, l = function (n, t) { var e, i = "LazyLoad::Initialized", o = new n(t); try { e = new CustomEvent(i, { detail: { instance: o } }) } catch (n) { (e = document.createEvent("CustomEvent")).initCustomEvent(i, !1, !1, { instance: o }) } window.dispatchEvent(e) }, u = "src", s = "srcset", d = "sizes", f = "poster", _ = "llOriginalAttrs", g = "data", v = "loading", b = "loaded", m = "applied", p = "error", h = "native", E = "data-", I = "ll-status", y = function (n, t) { return n.getAttribute(E + t) }, k = function (n) { return y(n, I) }, w = function (n, t) { return function (n, t, e) { var i = "data-ll-status"; null !== e ? n.setAttribute(i, e) : n.removeAttribute(i) }(n, 0, t) }, A = function (n) { return w(n, null) }, L = function (n) { return null === k(n) }, O = function (n) { return k(n) === h }, x = [v, b, m, p], C = function (n, t, e, i) { n && (void 0 === i ? void 0 === e ? n(t) : n(t, e) : n(t, e, i)) }, N = function (n, t) { o ? n.classList.add(t) : n.className += (n.className ? " " : "") + t }, M = function (n, t) { o ? n.classList.remove(t) : n.className = n.className.replace(new RegExp("(^|\\s+)" + t + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "") }, z = function (n) { return n.llTempImage }, T = function (n, t) { if (t) { var e = t._observer; e && e.unobserve(n) } }, R = function (n, t) { n && (n.loadingCount += t) }, G = function (n, t) { n && (n.toLoadCount = t) }, j = function (n) { for (var t, e = [], i = 0; t = n.children[i]; i += 1)"SOURCE" === t.tagName && e.push(t); return e }, D = function (n, t) { var e = n.parentNode; e && "PICTURE" === e.tagName && j(e).forEach(t) }, H = function (n, t) { j(n).forEach(t) }, V = [u], F = [u, f], B = [u, s, d], J = [g], P = function (n) { return !!n[_] }, S = function (n) { return n[_] }, U = function (n) { return delete n[_] }, $ = function (n, t) { if (!P(n)) { var e = {}; t.forEach((function (t) { e[t] = n.getAttribute(t) })), n[_] = e } }, q = function (n, t) { if (P(n)) { var e = S(n); t.forEach((function (t) { !function (n, t, e) { e ? n.setAttribute(t, e) : n.removeAttribute(t) }(n, t, e[t]) })) } }, K = function (n, t, e) { N(n, t.class_applied), w(n, m), e && (t.unobserve_completed && T(n, t), C(t.callback_applied, n, e)) }, Q = function (n, t, e) { N(n, t.class_loading), w(n, v), e && (R(e, 1), C(t.callback_loading, n, e)) }, W = function (n, t, e) { e && n.setAttribute(t, e) }, X = function (n, t) { W(n, d, y(n, t.data_sizes)), W(n, s, y(n, t.data_srcset)), W(n, u, y(n, t.data_src)) }, Y = { IMG: function (n, t) { D(n, (function (n) { $(n, B), X(n, t) })), $(n, B), X(n, t) }, IFRAME: function (n, t) { $(n, V), W(n, u, y(n, t.data_src)) }, VIDEO: function (n, t) { H(n, (function (n) { $(n, V), W(n, u, y(n, t.data_src)) })), $(n, F), W(n, f, y(n, t.data_poster)), W(n, u, y(n, t.data_src)), n.load() }, OBJECT: function (n, t) { $(n, J), W(n, g, y(n, t.data_src)) } }, Z = ["IMG", "IFRAME", "VIDEO", "OBJECT"], nn = function (n, t) { !t || function (n) { return n.loadingCount > 0 }(t) || function (n) { return n.toLoadCount > 0 }(t) || C(n.callback_finish, t) }, tn = function (n, t, e) { n.addEventListener(t, e), n.llEvLisnrs[t] = e }, en = function (n, t, e) { n.removeEventListener(t, e) }, on = function (n) { return !!n.llEvLisnrs }, an = function (n) { if (on(n)) { var t = n.llEvLisnrs; for (var e in t) { var i = t[e]; en(n, e, i) } delete n.llEvLisnrs } }, rn = function (n, t, e) { !function (n) { delete n.llTempImage }(n), R(e, -1), function (n) { n && (n.toLoadCount -= 1) }(e), M(n, t.class_loading), t.unobserve_completed && T(n, e) }, cn = function (n, t, e) { var i = z(n) || n; on(i) || function (n, t, e) { on(n) || (n.llEvLisnrs = {}); var i = "VIDEO" === n.tagName ? "loadeddata" : "load"; tn(n, i, t), tn(n, "error", e) }(i, (function (o) { !function (n, t, e, i) { var o = O(t); rn(t, e, i), N(t, e.class_loaded), w(t, b), C(e.callback_loaded, t, i), o || nn(e, i) }(0, n, t, e), an(i) }), (function (o) { !function (n, t, e, i) { var o = O(t); rn(t, e, i), N(t, e.class_error), w(t, p), C(e.callback_error, t, i), e.restore_on_error && q(t, B), o || nn(e, i) }(0, n, t, e), an(i) })) }, ln = function (n, t, e) { !function (n) { return Z.indexOf(n.tagName) > -1 }(n) ? function (n, t, e) { !function (n) { n.llTempImage = document.createElement("IMG") }(n), cn(n, t, e), function (n) { P(n) || (n[_] = { backgroundImage: n.style.backgroundImage }) }(n), function (n, t, e) { var i = y(n, t.data_bg), o = y(n, t.data_bg_hidpi), r = a && o ? o : i; r && (n.style.backgroundImage = 'url("'.concat(r, '")'), z(n).setAttribute(u, r), Q(n, t, e)) }(n, t, e), function (n, t, e) { var i = y(n, t.data_bg_multi), o = y(n, t.data_bg_multi_hidpi), r = a && o ? o : i; r && (n.style.backgroundImage = r, K(n, t, e)) }(n, t, e), function (n, t, e) { var i = y(n, t.data_bg_set); if (i) { var o = i.split("|"), a = o.map((function (n) { return "image-set(".concat(n, ")") })); n.style.backgroundImage = a.join(), "" === n.style.backgroundImage && (a = o.map((function (n) { return "-webkit-image-set(".concat(n, ")") })), n.style.backgroundImage = a.join()), K(n, t, e) } }(n, t, e) }(n, t, e) : function (n, t, e) { cn(n, t, e), function (n, t, e) { var i = Y[n.tagName]; i && (i(n, t), Q(n, t, e)) }(n, t, e) }(n, t, e) }, un = function (n) { n.removeAttribute(u), n.removeAttribute(s), n.removeAttribute(d) }, sn = function (n) { D(n, (function (n) { q(n, B) })), q(n, B) }, dn = { IMG: sn, IFRAME: function (n) { q(n, V) }, VIDEO: function (n) { H(n, (function (n) { q(n, V) })), q(n, F), n.load() }, OBJECT: function (n) { q(n, J) } }, fn = function (n, t) { (function (n) { var t = dn[n.tagName]; t ? t(n) : function (n) { if (P(n)) { var t = S(n); n.style.backgroundImage = t.backgroundImage } }(n) })(n), function (n, t) { L(n) || O(n) || (M(n, t.class_entered), M(n, t.class_exited), M(n, t.class_applied), M(n, t.class_loading), M(n, t.class_loaded), M(n, t.class_error)) }(n, t), A(n), U(n) }, _n = ["IMG", "IFRAME", "VIDEO"], gn = function (n) { return n.use_native && "loading" in HTMLImageElement.prototype }, vn = function (n, t, e) { n.forEach((function (n) { return function (n) { return n.isIntersecting || n.intersectionRatio > 0 }(n) ? function (n, t, e, i) { var o = function (n) { return x.indexOf(k(n)) >= 0 }(n); w(n, "entered"), N(n, e.class_entered), M(n, e.class_exited), function (n, t, e) { t.unobserve_entered && T(n, e) }(n, e, i), C(e.callback_enter, n, t, i), o || ln(n, e, i) }(n.target, n, t, e) : function (n, t, e, i) { L(n) || (N(n, e.class_exited), function (n, t, e, i) { e.cancel_on_exit && function (n) { return k(n) === v }(n) && "IMG" === n.tagName && (an(n), function (n) { D(n, (function (n) { un(n) })), un(n) }(n), sn(n), M(n, e.class_loading), R(i, -1), A(n), C(e.callback_cancel, n, t, i)) }(n, t, e, i), C(e.callback_exit, n, t, i)) }(n.target, n, t, e) })) }, bn = function (n) { return Array.prototype.slice.call(n) }, mn = function (n) { return n.container.querySelectorAll(n.elements_selector) }, pn = function (n) { return function (n) { return k(n) === p }(n) }, hn = function (n, t) { return function (n) { return bn(n).filter(L) }(n || mn(t)) }, En = function (n, e) { var o = c(n); this._settings = o, this.loadingCount = 0, function (n, t) { i && !gn(n) && (t._observer = new IntersectionObserver((function (e) { vn(e, n, t) }), function (n) { return { root: n.container === document ? null : n.container, rootMargin: n.thresholds || n.threshold + "px" } }(n))) }(o, this), function (n, e) { t && (e._onlineHandler = function () { !function (n, t) { var e; (e = mn(n), bn(e).filter(pn)).forEach((function (t) { M(t, n.class_error), A(t) })), t.update() }(n, e) }, window.addEventListener("online", e._onlineHandler)) }(o, this), this.update(e) }; return En.prototype = { update: function (n) { var t, o, a = this._settings, r = hn(n, a); G(this, r.length), !e && i ? gn(a) ? function (n, t, e) { n.forEach((function (n) { -1 !== _n.indexOf(n.tagName) && function (n, t, e) { n.setAttribute("loading", "lazy"), cn(n, t, e), function (n, t) { var e = Y[n.tagName]; e && e(n, t) }(n, t), w(n, h) }(n, t, e) })), G(e, 0) }(r, a, this) : (o = r, function (n) { n.disconnect() }(t = this._observer), function (n, t) { t.forEach((function (t) { n.observe(t) })) }(t, o)) : this.loadAll(r) }, destroy: function () { this._observer && this._observer.disconnect(), t && window.removeEventListener("online", this._onlineHandler), mn(this._settings).forEach((function (n) { U(n) })), delete this._observer, delete this._settings, delete this._onlineHandler, delete this.loadingCount, delete this.toLoadCount }, loadAll: function (n) { var t = this, e = this._settings; hn(n, e).forEach((function (n) { T(n, t), ln(n, e, t) })) }, restoreAll: function () { var n = this._settings; mn(n).forEach((function (t) { fn(t, n) })) } }, En.load = function (n, t) { var e = c(t); ln(n, e) }, En.resetStatus = function (n) { A(n) }, t && function (n, t) { if (t) if (t.length) for (var e, i = 0; e = t[i]; i += 1)l(n, e); else l(n, t) }(En, window.lazyLoadOptions), En }));
+        new LazyLoad();
+        var nice = false;</script>
+
+    <script type="text/javascript">
+    (function (d, w, s) {
+            var widgetHash = 'hkt67dxq6v0ao37t2o8g', gcw = d.createElement(s); gcw.type = 'text/javascript'; gcw.async = true;
+            gcw.src = '//widgets.binotel.com/getcall/widgets/' + widgetHash + '.js';
+            var sn = d.getElementsByTagName(s)[0]; sn.parentNode.insertBefore(gcw, sn);
+        })(document, window, 'script');</script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const streetInput = document.getElementById('street');
+            const citySelect = document.querySelector('.form__city');
+            const orderForm = document.querySelector('.form.active');
+
+            // 1. Налаштування автозаповнення Google
+            // Координати центру Боярки для фокусування пошуку
+            const boyarkaBounds = {
+                north: 50.35, // Приблизні межі вашого району доставки
+                south: 50.28,
+                east: 30.35,
+                west: 30.25,
+            };
+
+            const autocomplete = new google.maps.places.Autocomplete(streetInput, {
+                componentRestrictions: { country: "ua" },
+                bounds: boyarkaBounds,
+                strictBounds: true, // Шукати ТІЛЬКИ в межах цих координат
+                fields: ["address_components", "geometry", "formatted_address"],
+                types: ["address"]
+            });
+
+            // 2. Функція перевірки адреси
+            function validateAddress() {
+                const addressValue = streetInput.value;
+                const selectedCity = citySelect.options[citySelect.selectedIndex].value;
+
+                // Перевірка, чи введено номер будинку (наявність цифр)
+                const hasNumber = /\d/.test(addressValue);
+
+                if (addressValue.length < 5 || !hasNumber) {
+                    alert("Будь ласка, вкажіть повну адресу: вулицю та номер будинку.");
+                    streetInput.style.borderColor = "red";
+                    return false;
+                }
+
+                streetInput.style.borderColor = "";
+                return true;
+            }
+
+            // 3. Перехоплення відправки форми
+            if (orderForm) {
+                orderForm.addEventListener('submit', function (e) {
+                    if (!validateAddress()) {
+                        e.preventDefault(); // Зупиняємо відправку, якщо адреса невірна
+                        e.stopPropagation();
+                    }
+                });
+            }
+            document.querySelector('.form.active').addEventListener('submit', function (e) {
+                const streetValue = document.getElementById('street').value;
+
+                // Перевірка, чи є в рядку хоча б одна цифра (номер будинку)
+                const hasHouseNumber = /\d/.test(streetValue);
+
+                if (!hasHouseNumber) {
+                    e.preventDefault();
+                    alert("Будь ласка, оберіть адресу зі списку або додайте номер будинку!");
+                    document.getElementById('street').focus();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
