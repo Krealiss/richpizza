@@ -3840,13 +3840,13 @@
 						let basePrice = 0;
 						let baseId = 0;
 						let currentItem = null;
-                        
-                        $("#pizzaModal").click(function (e) {
-                            if ($(e.target).is("#pizzaModal")) {
-                                $("#pizzaModal").fadeOut();
-                                resetAddons();
-                            }
-                        });
+
+						$("#pizzaModal").click(function (e) {
+							if ($(e.target).is("#pizzaModal")) {
+								$("#pizzaModal").fadeOut();
+								resetAddons();
+							}
+						});
 
 						$(".menu__item .addons__btn").click(function (e) {
 							currentItem = $(this).parents(".menu__item");
@@ -3871,48 +3871,48 @@
 							resetAddons();
 						});
 						let addonTitle = 0;
-                        /* --- ВСТАВИТИ ЦЕЙ НОВИЙ БЛОК --- */
-                        $(".addon").change(function (e) {
+						/* --- ВСТАВИТИ ЦЕЙ НОВИЙ БЛОК --- */
+						$(".addon").change(function (e) {
 
-                            // === ЛОГІКА ДЛЯ БОРТІВ (Тільки один з групи) ===
-                            // Перевіряємо, чи натиснутий елемент є бортиком (ID 1, 2 або 3)
-                            let currentId = $(this).data('id');
+							// === ЛОГІКА ДЛЯ БОРТІВ (Тільки один з групи) ===
+							// Перевіряємо, чи натиснутий елемент є бортиком (ID 1, 2 або 3)
+							let currentId = $(this).data('id');
 
-                            if (currentId >= 1 && currentId <= 3 && this.checked) {
-                                // Проходимося по всіх бортиках
-                                $(".addon").each(function () {
-                                    let id = $(this).data('id');
-                                    // Якщо це бортик (ID 1-3) і це НЕ той, що ми зараз натиснули
-                                    if (id >= 1 && id <= 3 && $(this)[0] !== e.target) {
-                                        $(this).prop('checked', false); // Знімаємо галочку
-                                        $(this).parent().removeClass('active'); // Прибираємо червону підсвітку
-                                    }
-                                });
-                            }
-                            // ==============================================
+							if (currentId >= 1 && currentId <= 3 && this.checked) {
+								// Проходимося по всіх бортиках
+								$(".addon").each(function () {
+									let id = $(this).data('id');
+									// Якщо це бортик (ID 1-3) і це НЕ той, що ми зараз натиснули
+									if (id >= 1 && id <= 3 && $(this)[0] !== e.target) {
+										$(this).prop('checked', false); // Знімаємо галочку
+										$(this).parent().removeClass('active'); // Прибираємо червону підсвітку
+									}
+								});
+							}
+							// ==============================================
 
-                            // Оновлюємо візуальний стан поточного елемента
-                            $(this).parent().toggleClass("active", this.checked);
+							// Оновлюємо візуальний стан поточного елемента
+							$(this).parent().toggleClass("active", this.checked);
 
-                            // Стандартний розрахунок ціни
-                            addonTitle = baseTitle;
-                            let newPrice = basePrice;
-                            let id = baseId;
+							// Стандартний розрахунок ціни
+							addonTitle = baseTitle;
+							let newPrice = basePrice;
+							let id = baseId;
 
-                            $(".addon:checked").each(function () {
-                                newPrice += parseFloat($(this).data("price"));
-                                id = id + "" + $(this).data("id");
-                                // Додаємо назву додатка в заголовок (приховано)
-                                addonTitle = addonTitle + " <span class='menu__hidden'>" + $(this).parent().text() + "</span>";
-                            });
+							$(".addon:checked").each(function () {
+								newPrice += parseFloat($(this).data("price"));
+								id = id + "" + $(this).data("id");
+								// Додаємо назву додатка в заголовок (приховано)
+								addonTitle = addonTitle + " <span class='menu__hidden'>" + $(this).parent().text() + "</span>";
+							});
 
-                            // Оновлюємо атрибути товару
-                            currentItem[0].setAttribute("data-id", id);
-                            currentItem.find(".menu__size_panel")[0].setAttribute("data-id", id);
+							// Оновлюємо атрибути товару
+							currentItem[0].setAttribute("data-id", id);
+							currentItem.find(".menu__size_panel")[0].setAttribute("data-id", id);
 
-                            // Оновлюємо ціну в модалці
-                            $(".modal-price").text(newPrice);
-                        });
+							// Оновлюємо ціну в модалці
+							$(".modal-price").text(newPrice);
+						});
 						$(".btn__confirm").click(function () {
 							if (currentItem) {
 								currentItem.find(".menu__title").html(addonTitle);
@@ -3926,7 +3926,7 @@
 
 						function resetAddons() {
 							$(".addon").prop("checked", false);
-                            $(".addons label").removeClass("active");
+							$(".addons label").removeClass("active");
 							$(".modal-price").text(basePrice);
 							currentItem.find(".menu__title").html(baseTitle).find(".menu__hidden").remove();
 							currentItem.find(".menu__price span").text(basePrice + " грн");
@@ -3936,85 +3936,72 @@
 					});
 				</script>
 				<style type="text/css">
-                    /* --- Стилі для зображень інгредієнтів --- */
-                    .addons label img {
-                        width: 45px; /* Розмір картинки */
-                        height: 45px;
-                        object-fit: contain; /* Щоб картинка не розтягувалася */
-                        margin-bottom: 8px; /* Відступ до тексту */
-                        border-radius: 8px; /* Легке заокруглення */
-                        transition: transform 0.2s;
-                    }
+					/* --- 1. Темний фон та основа модалки --- */
+					.addons__btn {
+						color: #fff;
+						border: 1px solid #fff;
+						padding: 3px 5px;
+						font-size: 14px;
+						border-radius: 13px;
+						background: rgba(255, 255, 255, .13);
+					}
 
-                    /* Легке збільшення картинки при наведенні на картку */
-                    .addons label:hover img {
-                        transform: scale(1.1);
-                    }
-                    /* --- 1. Темний фон та основа модалки --- */
-                    .addons__btn {
-                        color: #fff;
-                        border: 1px solid #fff;
-                        padding: 3px 5px;
-                        font-size: 14px;
-                        border-radius: 13px;
-                        background: rgba(255, 255, 255, .13);
-                    }
-                    .modal {
-                        display: none;
-                        position: fixed;
-                        z-index: 2147483647;
-                        left: 0;
-                        top: 0;
-                        width: 100%;
-                        height: 100%;
-                        background-color: rgba(0, 0, 0, 0.85);
-                        backdrop-filter: blur(5px);
-                    }
+					.modal {
+						display: none;
+						position: fixed;
+						z-index: 2147483647;
+						left: 0;
+						top: 0;
+						width: 100%;
+						height: 100%;
+						background-color: rgba(0, 0, 0, 0.85);
+						backdrop-filter: blur(5px);
+					}
 
-                    .modal-content {
-                        background-color: #1a1a1a;
-                        padding: 0;
-                        width: 95%;
-                        max-width: 550px;
-                        margin: 40px auto;
-                        border-radius: 20px;
-                        text-align: center;
-                        position: relative;
-                        max-height: 90%;
-                        overflow-y: auto;
-                        box-shadow: 0 20px 50px rgba(0,0,0,0.7);
-                        border: 1px solid #333;
-                        color: #fff;
-                        /* Для Firefox */
-                        scrollbar-width: thin;
-                        scrollbar-color: #444 transparent;
-                    }
+					.modal-content {
+						background-color: #1a1a1a;
+						padding: 0;
+						width: 100%;
+						max-width: 630px;
+						margin: 40px auto;
+						border-radius: 20px;
+						text-align: center;
+						position: relative;
+						max-height: 90%;
+						overflow-y: auto;
+						box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+						border: 1px solid #333;
+						color: #fff;
+						/* Для Firefox */
+						scrollbar-width: thin;
+						scrollbar-color: #444 transparent;
+					}
 
-                        /* --- Стилізація скролбару (Webkit: Chrome, Edge, Safari) --- */
+						/* --- Стилізація скролбару (Webkit: Chrome, Edge, Safari) --- */
 
-                        /* Ширина скролбару */
-                        .modal-content::-webkit-scrollbar {
-                            width: 6px;
-                        }
+						/* Ширина скролбару */
+						.modal-content::-webkit-scrollbar {
+							width: 6px;
+						}
 
-                        /* Трек (фон скролбару) */
-                        .modal-content::-webkit-scrollbar-track {
-                            background: transparent;
-                            /* НАЙВАЖЛИВІШЕ: відступи, щоб скрол не наїжджав на круглі кути */
-                            margin-top: 20px;
-                            margin-bottom: 20px;
-                        }
+						/* Трек (фон скролбару) */
+						.modal-content::-webkit-scrollbar-track {
+							background: transparent;
+							/* НАЙВАЖЛИВІШЕ: відступи, щоб скрол не наїжджав на круглі кути */
+							margin-top: 20px;
+							margin-bottom: 20px;
+						}
 
-                        /* Повзунок */
-                        .modal-content::-webkit-scrollbar-thumb {
-                            background-color: #444; /* Темно-сірий колір */
-                            border-radius: 10px; /* Заокруглений повзунок */
-                        }
+						/* Повзунок */
+						.modal-content::-webkit-scrollbar-thumb {
+							background-color: #444; /* Темно-сірий колір */
+							border-radius: 10px; /* Заокруглений повзунок */
+						}
 
-                            /* Повзунок при наведенні */
-                            .modal-content::-webkit-scrollbar-thumb:hover {
-                                background-color: #DD352E; /* Червоний при наведенні мишкою */
-                            }
+							/* Повзунок при наведенні */
+							.modal-content::-webkit-scrollbar-thumb:hover {
+								background-color: #DD352E; /* Червоний при наведенні мишкою */
+							}
 
 						/* Темний скролбар */
 						.modal-content::-webkit-scrollbar {
@@ -4080,12 +4067,12 @@
 						color: #DD352E; /* Червона ціна */
 					}
 
-                    /* --- 3. Кнопка закриття (Перекриваємо стилі WP) --- */
-                    #pizzaModal .close {
-                        /* Скидаємо все, що може давати тема */
-                        background-image: none !important; /* Прибираємо картинку теми */
-                        background: none !important; /* Наш темний колір */
-                    }
+					/* --- 3. Кнопка закриття (Перекриваємо стилі WP) --- */
+					#pizzaModal .close {
+						/* Скидаємо все, що може давати тема */
+						background-image: none !important; /* Прибираємо картинку теми */
+						background: none !important; /* Наш темний колір */
+					}
 
 					/* --- 3. Кнопка закриття --- */
 					.close {
@@ -4094,8 +4081,8 @@
 						right: 15px;
 						width: 32px;
 						height: 32px;
-/*						background: #333;*/
-/*						border-radius: 50%;*/
+						/*						background: #333;*/
+						/*						border-radius: 50%;*/
 						font-size: 45px;
 						color: #C9C6CA;
 						display: flex;
@@ -4110,7 +4097,7 @@
 					}
 
 						.close:hover {
-/*							background-color: #DD352E;*/
+							/*							background-color: #DD352E;*/
 							color: white;
 						}
 
@@ -4260,18 +4247,35 @@
 							<h4 class="addons-title">Смачні бортики</h4>
 							<div class="addons-group">
 								<label>
-									<img src="https://img.postershop.me/cdn-cgi/image/width=1024,format=webp/https://img.postershop.me/12282/3d09765c-6815-4e24-804d-adedd83c8e53_image.jpeg" alt="Борт">
-									Борт Філадельфія <small>(+80 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Борт Філадельфія.png" alt="Борт Філадельфія" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Борт Філадельфія</span>
+										<span class="addon-price">+80 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="80" data-id="1">
 								</label>
+
 								<label>
-									<img src="https://just-eat.by/image/data/shops/15207/78077.jpg" alt="Борт">
-									Борт Хот Дог <small>(+90 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Борт Хот-дог.png" alt="Борт Хот-дог" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Борт Хот Дог</span>
+										<span class="addon-price">+90 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="90" data-id="2">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Mix" alt="Борт">
-									Борт Мікс <small>(+90 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Борт Мікс.png" alt="Борт Мікс" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Борт Мікс</span>
+										<span class="addon-price">+90 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="90" data-id="3">
 								</label>
 							</div>
@@ -4279,33 +4283,68 @@
 							<h4 class="addons-title">М'ясні додатки</h4>
 							<div class="addons-group">
 								<label>
-									<img src="https://png.pngtree.com/png-clipart/20210308/original/pngtree-gourmet-barbecue-colorful-three-dimensional-ingredients-barbecue-western-food-bacon-clipart-png-image_5730651.jpg" alt="Бекон">
-									Бекон 50 г <small>(+35 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Бекон.png" alt="Бекон" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Бекон <small>50 г</small></span>
+										<span class="addon-price">+35 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="35" data-id="4">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Ham" alt="Шинка">
-									Шинка 50 г <small>(+35 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Шинка.png" alt="Шинка" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Шинка <small>50 г</small></span>
+										<span class="addon-price">+35 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="35" data-id="5">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Salami" alt="Салямі">
-									Салямі 50 г <small>(+35 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Салямі.png" alt="Салямі" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Салямі <small>50 г</small></span>
+										<span class="addon-price">+35 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="35" data-id="6">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Sausage" alt="Ковбаски">
-									Мисливські ковбаски 50 г <small>(+35 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Мисливські ковбаски.png" alt="Мисливські ковбаски" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Мисливські <br>ковбаски <small>50 г</small></span>
+										<span class="addon-price">+35 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="35" data-id="7">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Chicken" alt="Курка">
-									Копчена курка 50 г <small>(+35 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Копчена курка.png" alt="Копчена курка" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Копчена курка <small>50 г</small></span>
+										<span class="addon-price">+35 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="35" data-id="8">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Baked" alt="Курка">
-									Запечена курка 50 г <small>(+35 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Запечена курка.png" alt="Запечена курка" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Запечена курка <small>50 г</small></span>
+										<span class="addon-price">+35 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="35" data-id="9">
 								</label>
 							</div>
@@ -4313,63 +4352,134 @@
 							<h4 class="addons-title">Овочі та інше</h4>
 							<div class="addons-group">
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Tomato" alt="Помідори">
-									Помідори 80 г <small>(+25 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Помідори.png" alt="Помідори" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Помідори <small>80 г</small></span>
+										<span class="addon-price">+25 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="25" data-id="10">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Pepper" alt="Перець">
-									Болгарський перець 50 г <small>(+30 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Болгарський перець.png" alt="Болгарський перець" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Болгарський <br>перець <small>50 г</small></span>
+										<span class="addon-price">+30 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="30" data-id="11">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Mushroom" alt="Гриби">
-									Печериці мариновані 50 г <small>(+30 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Печериці мариновані.png" alt="Печериці" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Печериці <br>мариновані <small>50 г</small></span>
+										<span class="addon-price">+30 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="30" data-id="16">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Onion" alt="Цибуля">
-									Червона цибуля 25 г <small>(+10 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Червона цибуля.png" alt="Червона цибуля" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Червона цибуля <small>25 г</small></span>
+										<span class="addon-price">+10 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="10" data-id="12">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Onion" alt="Цибуля">
-									Маринована цибуля 25 г <small>(+10 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Маринована цибуля.png" alt="Маринована цибуля" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Маринована <br>цибуля <small>25 г</small></span>
+										<span class="addon-price">+10 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="10" data-id="13">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Pickle" alt="Огірки">
-									Солоні огірки 50 г <small>(+25 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Солоні огірки.png" alt="Солоні огірки" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Солоні огірки <small>50 г</small></span>
+										<span class="addon-price">+25 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="25" data-id="14">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Pickle" alt="Огірки">
-									Огірки мариновані 50 г <small>(+25 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Огірки мариновані.png" alt="Огірки мариновані" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Огірки <br>мариновані <small>50 г</small></span>
+										<span class="addon-price">+25 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="25" data-id="15">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Jalapeno" alt="Халопеньйо">
-									Перець Халопеньйо 30 г <small>(+35 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Перець Халопеньйо.png" alt="Перець Халопеньйо" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Халопеньйо <small>30 г</small></span>
+										<span class="addon-price">+35 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="35" data-id="17">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Corn" alt="Кукурудза">
-									Кукурудза 30 г <small>(+25 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Кукурудза.png" alt="Кукурудза" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Кукурудза <small>30 г</small></span>
+										<span class="addon-price">+25 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="25" data-id="18">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Olive" alt="Маслини">
-									Маслини 30 г <small>(+25 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Маслини.png" alt="Маслини" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Маслини <small>30 г</small></span>
+										<span class="addon-price">+25 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="25" data-id="19">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Olive" alt="Оливки">
-									Оливки 30 г <small>(+25 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Оливки.png" alt="Оливки" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Оливки <small>30 г</small></span>
+										<span class="addon-price">+25 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="25" data-id="20">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Pineapple" alt="Ананас">
-									Ананас 50 г <small>(+30 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Ананас.png" alt="Ананас" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Ананас <small>50 г</small></span>
+										<span class="addon-price">+30 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="30" data-id="21">
 								</label>
 							</div>
@@ -4377,38 +4487,79 @@
 							<h4 class="addons-title">Сири</h4>
 							<div class="addons-group">
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Mozzarella" alt="Моцарела">
-									Сир моцарела 80 г <small>(+35 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Сир моцарела.png" alt="Сир моцарела" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Сир Моцарела <small>80 г</small></span>
+										<span class="addon-price">+35 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="35" data-id="22">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Gouda" alt="Гауда">
-									Сир Гауда 30 г <small>(+35 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Сир Гауда.png" alt="Сир Гауда" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Сир Гауда <small>30 г</small></span>
+										<span class="addon-price">+35 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="35" data-id="23">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Cheddar" alt="Чедер">
-									Сир Чедер 30 г <small>(+35 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Сир Чедер.png" alt="Сир Чедер" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Сир Чедер <small>30 г</small></span>
+										<span class="addon-price">+35 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="35" data-id="24">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Caesar" alt="Цезар">
-									Сир Цезар 30 г <small>(+35 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Сир Цезар.png" alt="Сир Цезар" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Сир Цезар <small>30 г</small></span>
+										<span class="addon-price">+35 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="35" data-id="25">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=DorBlue" alt="Дор Блю">
-									Сир Дор Блю 20 г <small>(+35 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Сир Дор Блю.png" alt="Сир Дор Блю" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Сир Дор Блю <small>20 г</small></span>
+										<span class="addon-price">+35 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="35" data-id="26">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Parmesan" alt="Пармезан">
-									Сир Пармезан 20 г <small>(+35 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Сир Пармезан.png" alt="Сир Пармезан" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Сир Пармезан <small>20 г</small></span>
+										<span class="addon-price">+35 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="35" data-id="27">
 								</label>
+
 								<label>
-									<img src="https://via.placeholder.com/50/333/DD352E?text=Emmental" alt="Ементаль">
-									Сир Ементаль 30 г <small>(+35 грн)</small>
+									<span class="addon-img-wrapper">
+										<img src="img/Сир Ементаль.png" alt="Сир Ементаль" />
+									</span>
+									<span class="addon-info">
+										<span class="addon-name">Сир Ементаль <small>30 г</small></span>
+										<span class="addon-price">+35 грн</span>
+									</span>
 									<input type="checkbox" class="addon" data-price="35" data-id="28">
 								</label>
 							</div>
@@ -6020,7 +6171,7 @@
 					</article>
 				</div>
 
-			
+
 				<div class="menu__list">
 
 					<article class="menu__item">
@@ -6824,30 +6975,157 @@
 						lastScrollPosition = currentScrollPosition;
 					});
 				</script>
-                <style>
-                    .arrow-up {
-                        position: fixed;
-                        bottom: 32px;
-                        left: 32px;
-                        width: 40px;
-                        height: 40px;
-                        transition: opacity 0.3s ease; /* Плавный переход для opacity */
-                        opacity: 0;
-                        text-align: center;
-                    }
+				<style>
+					.arrow-up {
+						position: fixed;
+						bottom: 32px;
+						left: 32px;
+						width: 40px;
+						height: 40px;
+						transition: opacity 0.3s ease; /* Плавный переход для opacity */
+						opacity: 0;
+						text-align: center;
+					}
 
-                    .up {
-                        position: relative;
-                    }
+					.up {
+						position: relative;
+					}
 
-                    /* For mobile view */
-                    @media only screen and (max-width: 700px) {
-                        .modal-content {
-                            width: 100%;
-                            height: 87%;
-                        }
-                    }
-                </style>
+					/* For mobile view */
+					@media only screen and (max-width: 700px) {
+						.modal-content {
+							width: 100%;
+							height: 87%;
+						}
+					}
+
+					/* --- Стилізація сітки --- */
+					.addons-group {
+						display: grid;
+						/* Робимо адаптивну сітку: мінімум 140px ширина картки */
+						grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+						gap: 12px;
+					}
+
+					/* --- Сама картка --- */
+					.addons label {
+						position: relative;
+						display: flex;
+						flex-direction: column;
+						padding: 0; /* Прибираємо внутрішні відступи, щоб фото було на всю ширину */
+						background-color: #262626; /* Темний фон картки */
+						border: 1px solid #333;
+						border-radius: 12px;
+						cursor: pointer;
+						overflow: hidden; /* Щоб картинка не вилазила за радіус */
+						transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+						height: 100%; /* Щоб всі картки в ряду були однакової висоти */
+					}
+
+						/* Ефект наведення */
+						.addons label:hover {
+							border-color: #777;
+							background-color: #2f2f2f;
+							transform: translateY(-2px); /* Легкий підйом */
+						}
+
+					/* --- Зображення --- */
+					.addon-img-wrapper {
+						width: 100%;
+						height: 100px; /* Фіксована висота для фото */
+						background-color: #fff; /* Білий фон під фото (якщо у вас PNG з прозорістю) */
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						position: relative;
+					}
+
+						/* Якщо фото на всю картку (наприклад, бекон/піца) */
+						.addon-img-wrapper img {
+							width: 100%;
+							height: 100%;
+							object-fit: cover; /* Ключовий момент: обрізає зайве, не сплющуючи фото */
+							transition: transform 0.5s ease;
+						}
+
+					/* Збільшення фото при наведенні */
+					.addons label:hover .addon-img-wrapper img {
+						transform: scale(1.05);
+					}
+
+					/* --- Текстова частина --- */
+					.addon-info {
+						padding: 12px 10px;
+						display: flex;
+						flex-direction: column;
+						flex-grow: 1; /* Розтягує блок, щоб заповнити висоту */
+						justify-content: space-between;
+						align-items: center;
+						text-align: center;
+					}
+
+					.addon-name {
+						font-size: 14px;
+						font-weight: 600;
+						color: #fff;
+						line-height: 1.2;
+						margin-bottom: 6px;
+					}
+
+					.addon-price {
+						font-size: 13px;
+						color: #DD352E; /* Червоний колір для ціни */
+						font-weight: 700;
+						background: rgba(221, 53, 46, 0.1);
+						padding: 2px 8px;
+						border-radius: 4px;
+					}
+
+					/* --- Активний стан (Вибрано) --- */
+					.addons label.active {
+						border: 1px solid #DD352E;
+						box-shadow: 0 0 0 1px #DD352E; /* Подвійна рамка */
+					}
+
+					/* Галочка (оновлена) */
+					.addons label::after {
+						content: '✔';
+						position: absolute;
+						top: 8px;
+						right: 8px;
+						width: 24px;
+						height: 24px;
+						background-color: #DD352E;
+						color: white;
+						border-radius: 50%;
+						font-size: 14px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						opacity: 0;
+						transform: scale(0);
+						transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+						z-index: 5;
+						box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+					}
+
+					.addons label.active::after {
+						opacity: 1;
+						transform: scale(1);
+					}
+
+					/* Приховуємо стандартний чекбокс */
+					.addons label input {
+						display: none;
+					}
+
+					/* Якщо всередині label немає картинки (або обгортки .addon-img-wrapper) */
+					.addons label:not(:has(img)) {
+						padding: 15px;
+						justify-content: center;
+						min-height: 80px; /* Менша висота для текстових карток */
+					}
+				</style>
 
 				<div id="arrow-container" class="arrow-up">
 					<a class="up" href="#up"></a>
